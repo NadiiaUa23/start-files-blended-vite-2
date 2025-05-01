@@ -2,14 +2,12 @@ import PhotosGalleryItem from '../components/PhotosGalleryItem/PhotosGalleryItem
 import Grid from '../components/Grid/Grid';
 import GridItem from '../components/GridItem/GridItem';
 
-const PhotosGallery = images => {
+const PhotosGallery = () => {
   return (
     <Grid>
-      {[].map(() => (
-        <GridItem>
-          <PhotosGalleryItem />
-        </GridItem>
-      ))}
+      <GridItem>
+        <PhotosGalleryItem />
+      </GridItem>
     </Grid>
   );
 };
