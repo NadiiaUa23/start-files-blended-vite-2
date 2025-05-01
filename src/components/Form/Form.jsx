@@ -1,7 +1,8 @@
 import { GrAdd } from 'react-icons/gr';
+import { FiSearch } from 'react-icons/fi';
 import style from './Form.module.css';
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, mode = 'add' }) => {
   const handleSubmit = event => {
     event.preventDefault();
     //value-значение с импута
@@ -16,10 +17,13 @@ const Form = ({ onSubmit }) => {
     event.target.reset();
   };
 
+  // вибір іконки
+  const Icon = mode === 'search' ? FiSearch : GrAdd;
+
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <button className={style.button} type="submit">
-        <GrAdd size="16px" />
+        <Icon size="16px" />
       </button>
 
       <input

@@ -72,7 +72,7 @@ const Todos = () => {
           defaultValue={currentTodo.text}
         />
       ) : (
-        <Form onSubmit={addTodo} />
+        <Form onSubmit={addTodo} mode="add" />
       )}
 
       <TodoList
