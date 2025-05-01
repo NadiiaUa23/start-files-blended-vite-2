@@ -1,4 +1,4 @@
-import { FiSearch } from 'react-icons/fi';
+import { GrAdd } from 'react-icons/gr';
 import style from './Form.module.css';
 
 const Form = ({ onSubmit }) => {
@@ -19,7 +19,7 @@ const Form = ({ onSubmit }) => {
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <button className={style.button} type="submit">
-        <FiSearch size="16px" />
+        <GrAdd size="16px" />
       </button>
 
       <input
