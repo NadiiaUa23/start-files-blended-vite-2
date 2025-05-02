@@ -1,6 +1,6 @@
 import styles from './PhotosGalleryItem.module.css';
 
-const PhotosGalleryItem = () => {
+const PhotosGalleryItem = ({ avg_color, src, alt }) => {
   return (
     <div
       className={styles.thumb}

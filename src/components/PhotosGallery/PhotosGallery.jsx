@@ -1,13 +1,19 @@
-import PhotosGalleryItem from '../components/PhotosGalleryItem/PhotosGalleryItem';
-import Grid from '../components/Grid/Grid';
-import GridItem from '../components/GridItem/GridItem';
+import PhotosGalleryItem from '../PhotosGalleryItem/PhotosGalleryItem';
+import Grid from '../Grid/Grid';
+import GridItem from '../GridItem/GridItem';
 
-const PhotosGallery = () => {
+const PhotosGallery = ({ images }) => {
   return (
     <Grid>
-      <GridItem>
-        <PhotosGalleryItem />
-      </GridItem>
+      {images.map(img => (
+        <GridItem key={img.id}>
+          <PhotosGalleryItem
+            avg_color={img.avg_color}
+            src={img.src}
+            alt={img.alt}
+          />
+        </GridItem>
+      ))}
     </Grid>
   );
 };

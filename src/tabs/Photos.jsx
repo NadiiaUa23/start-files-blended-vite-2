@@ -1,53 +1,66 @@
 import Text from '../components/Text/Text';
 import Form from '../components/Form/Form';
 import PhotosGallery from '../components/PhotosGallery/PhotosGallery';
-
-const images = [
-  {
-    id: 3573351,
-    avg_color: '#374824',
-    src: {
-      original:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png>',
-      large:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=650&w=940>',
-      medium:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=350>',
-      small:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=130>',
-    },
-    alt: 'Brown Rocks During Golden Hour',
-  },
-  {
-    id: 35733515,
-    avg_color: '#374824',
-    src: {
-      original:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png>',
-      large:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=650&w=940>',
-      medium:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=350>',
-      small:
-        '<https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=130>',
-    },
-    alt: 'Brown Rocks During Golden Hour',
-  },
-];
+import { getPhotos } from '../apiService/photos';
+import { useEffect, useState } from 'react';
+import Button from '../components/Button/Button';
+import Loader from '../components/Loader/Loader';
 
 const Photos = () => {
-  //
-  const getQuery = inputValue => {
-    console.log('Form submit:', inputValue); // має вивести значення інпуту під час сабміту форми
-  };
+  const [images, setImages] = useState([]);
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
 
-  // console.log([images]);
+  const [isLoadinge, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const [hesMoreImags, setHesMoreImags] = useState(false);
+
+  useEffect(() => {
+    if (!query) return;
+
+    const getData = async () => {
+      setIsLoading(true);
+
+      try {
+        const data = await getPhotos(query, page);
+        console.log(data);
+        setHesMoreImags(page < Math.ceil(data.total_results / data.per_page));
+        setImages([...images, ...data.photos]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        // setTimeout(() => {
+        //   setIsLoading(false);
+        // }, 2000);
+
+        setIsLoading(false);
+      }
+    };
+    getData();
+  }, [query, page]);
+
+  const getQuery = inputValue => {
+    setQuery(inputValue);
+    setError(false);
+    setPage(1);
+    setImages([]);
+  };
+  const hendleClick = () => {
+    setPage(page + 1);
+  };
 
   return (
     <>
       <Form mode="search" onSubmit={getQuery} />
       <PhotosGallery images={images} />
-      <Text textAlign="center">Let`s begin search 🔎</Text>
+
+      {images.length === 0 && (
+        <Text textAlign="center">Let`s begin search 🔎</Text>
+      )}
+
+      {hesMoreImags && <Button onClick={hendleClick}>load more</Button>}
+      {isLoadinge && <Loader />}
     </>
   );
 };
